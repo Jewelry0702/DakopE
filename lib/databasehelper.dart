@@ -43,10 +43,9 @@ class DatabaseHelper {
         model TEXT,
         CRNum TEXT,
         permitNum TEXT,
-        isExpired BOOLEAN,
-      )
+        isExpired BOOLEAN
+      );
     ''');
-    debugPrint("Database Created!");
   }
 
   // Insert a new record into the database

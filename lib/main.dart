@@ -32,7 +32,10 @@ class _MyAppState extends State<MyApp> {
       'permitNum': 'fuck123',
       'isExpired': true,
     };
-    db.insert(newRec).then((value) => {debugPrint(value.toString())});
+    //db.insert(newRec).then((value) => {debugPrint(value.toString())});
+    db
+        .queryAll()
+        .then((value) => {debugPrint('Result: ${value.first['plateNum']}')});
   }
 
   Future<void> initPlatformState() async {
