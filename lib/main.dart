@@ -4,6 +4,7 @@ import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:flutter/services.dart';
 import 'form.dart';
 import 'printutil.dart';
+import 'databasehelper.dart';
 
 void main() => runApp(MaterialApp(home: MyApp()));
 
@@ -14,7 +15,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   BlueThermalPrinter bluetooth = BlueThermalPrinter.instance;
-
+  final DatabaseHelper db = DatabaseHelper.instance;
   List<BluetoothDevice> _devices = [];
   BluetoothDevice? _device;
   bool _connected = false;
@@ -23,6 +24,15 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
+    final newRec = {
+      'plateNum': 'FUCK123',
+      'ownerName': 'Sam MckimLy',
+      'model': 'CBR-125',
+      'CRNum': 'SHIT123455',
+      'permitNum': 'fuck123',
+      'isExpired': true,
+    };
+    db.insert(newRec).then((value) => {debugPrint(value.toString())});
   }
 
   Future<void> initPlatformState() async {
