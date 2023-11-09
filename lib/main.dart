@@ -5,10 +5,18 @@ import 'package:flutter/services.dart';
 import 'form.dart';
 import 'printutil.dart';
 import 'databasehelper.dart';
+import 'scanner.dart';
+import 'package:camera/camera.dart';
 
-void main() => runApp(MaterialApp(home: MyApp()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final cameras = await availableCameras();
+  runApp(MaterialApp(home: MyApp(cameras: cameras)));
+}
 
 class MyApp extends StatefulWidget {
+  final List<CameraDescription> cameras;
+  const MyApp({Key? key, required this.cameras}) : super(key: key);
   @override
   _MyAppState createState() => new _MyAppState();
 }
@@ -24,6 +32,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
+
     final newRec = {
       'plateNum': 'FUCK123',
       'ownerName': 'Sam MckimLy',
@@ -196,6 +205,22 @@ class _MyAppState extends State<MyApp> {
                   },
                   child: const Text(
                     'Form',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Colors.brown),
+                  onPressed: () {
+                    // Navigate to the second page when the button is pressed.
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Scanner(cameras: widget.cameras)),
+                    );
+                  },
+                  child: const Text(
+                    'Scanner',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
