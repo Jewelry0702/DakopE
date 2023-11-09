@@ -33,18 +33,15 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     initPlatformState();
 
-    final newRec = {
-      'plateNum': 'FUCK123',
+    /*final newRec = {
+      'plateNum': 'NBC 1234',
       'ownerName': 'Sam MckimLy',
       'model': 'CBR-125',
       'CRNum': 'SHIT123455',
       'permitNum': 'fuck123',
-      'isExpired': true,
+      'isExpired': 1,
     };
-    //db.insert(newRec).then((value) => {debugPrint(value.toString())});
-    db
-        .queryAll()
-        .then((value) => {debugPrint('Result: ${value.first['plateNum']}')});
+    db.insert(newRec).then((value) => {debugPrint(value.toString())});*/
   }
 
   Future<void> initPlatformState() async {
@@ -199,8 +196,7 @@ class _MyAppState extends State<MyApp> {
                     // Navigate to the second page when the button is pressed.
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const TicketForm()),
+                      MaterialPageRoute(builder: (context) => TicketForm()),
                     );
                   },
                   child: const Text(

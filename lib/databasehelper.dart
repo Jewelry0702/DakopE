@@ -59,4 +59,14 @@ class DatabaseHelper {
     final db = await database;
     return await db.query('info');
   }
+
+  Future<List<Map<String, dynamic>>> getDataFromPlateNum(
+      String plateNum) async {
+    final db = await database;
+    return await db.query('info',
+        columns: ['ownerName', 'model', 'CRNum', 'permitNum', 'isExpired'],
+        where: 'plateNum = ?',
+        whereArgs: [plateNum],
+        limit: 1);
+  }
 }

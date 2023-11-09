@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
+import 'package:printer/databasehelper.dart';
 import 'printutil.dart';
 
 class TicketForm extends StatefulWidget {
-  const TicketForm({super.key});
-
+  String? data;
+  TicketForm({super.key, this.data});
   @override
   State<TicketForm> createState() => _TicketFormState();
 }
@@ -22,9 +23,10 @@ class _TicketFormState extends State<TicketForm> {
 
   bool valuefirst = false;
   bool valuesecond = false;
-
+  bool isExpire = false;
   String inputText = "";
   // Controllers for each TextField
+  final _timeController = TextEditingController();
   final _dateController = TextEditingController();
   final _nameController = TextEditingController();
   final _addressController = TextEditingController();
@@ -91,11 +93,22 @@ class _TicketFormState extends State<TicketForm> {
   @override
   void initState() {
     super.initState();
-    itemChecked = Map.fromIterable(
-      items,
-      key: (item) => item,
-      value: (item) => false,
-    );
+    itemChecked = {for (var item in items) item: false};
+    if (widget.data != null) {
+      _plateNoController.text = widget.data!;
+      DatabaseHelper.instance
+          .getDataFromPlateNum(widget.data!)
+          .then((value) => {
+                if (value.isNotEmpty)
+                  {
+                    _nameController.text = value.first['ownerName'],
+                    _modelController.text = value.first['model'],
+                    _crNoController.text = value.first['CRNum'],
+                    _dlPermitNoController.text = value.first['permitNum'],
+                    isExpire = value.first['isExpired']
+                  }
+              });
+    }
   }
 
   @override
@@ -179,6 +192,38 @@ class _TicketFormState extends State<TicketForm> {
             controller: _modelController,
             decoration: const InputDecoration(labelText: "Model:"),
           ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 60,
+                width: 320,
+                child: TextField(
+                  controller: _timeController,
+                  decoration: const InputDecoration(
+                      labelText: 'Date of Violation',
+                      hintText: 'MM/dd/yyyy',
+                      hintStyle: TextStyle(
+                        fontFamily: "Arial",
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        fontStyle: FontStyle.normal,
+                      )),
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2101),
+                    );
+                    var d = pickedDate;
+                    String format = "${d!.month}/${d.day}/${d.year}";
+                    _timeController.text = format;
+                  },
+                ),
+              ),
+            ],
+          ),
           TextField(
             controller: _placeOfViolationController,
             decoration: const InputDecoration(labelText: "Place of Violation:"),
@@ -252,6 +297,16 @@ class _TicketFormState extends State<TicketForm> {
             onChanged: (value) {
               setState(() {
                 valuesecond = value!;
+              });
+            },
+          ),
+          CheckboxListTile(
+            controlAffinity: ListTileControlAffinity.trailing,
+            title: const Text('Is Expire'),
+            value: isExpire,
+            onChanged: (value) {
+              setState(() {
+                isExpire = value!;
               });
             },
           ),
