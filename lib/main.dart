@@ -220,6 +220,22 @@ class _MyAppState extends State<MyApp> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Colors.brown),
+                  onPressed: () {
+                    // Navigate to the second page when the button is pressed.
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Scanner(cameras: widget.cameras)),
+                    );
+                  },
+                  child: const Text(
+                    '[DEBUG] - Database Operation',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ],
             ),
           ),

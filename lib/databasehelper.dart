@@ -45,6 +45,21 @@ class DatabaseHelper {
         permitNum TEXT,
         isExpired BOOLEAN
       );
+      
+
+    ''');
+
+    await db.execute('''
+      CREATE TABLE ticket (
+        plateNum TEXT,
+        ownerName TEXT,
+        model TEXT,
+        CRNum TEXT,
+        permitNum TEXT,
+        isExpired BOOLEAN
+      );
+      
+
     ''');
   }
 
