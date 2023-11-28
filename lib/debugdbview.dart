@@ -13,7 +13,9 @@ class _DebugViewDBState extends State<DebugViewDB> {
 
   void getContentFromDB() async {
     var value = await DatabaseHelper.instance.queryAll();
-
+    contentList.add(Center(
+      child: Text('User List'),
+    ));
     if (value.isNotEmpty) {
       debugPrint("value not empty!");
       for (var val in value) {
@@ -69,67 +71,6 @@ class _DebugViewDBState extends State<DebugViewDB> {
         contentList.add(Padding(padding: EdgeInsets.all(5.0)));
       }
     }
-
-    /*await DatabaseHelper.instance.queryAll().then((value) => {
-          debugPrint('querying'),
-          if (value.isNotEmpty)
-            {
-              debugPrint("value not empty!"),
-              for (var val in value)
-                {
-                  debugPrint('Value found!'),
-                  contentList.add(
-                    Row(
-                      children: [
-                        Text('Name'),
-                        Text(val['ownerName']),
-                      ],
-                    ),
-                  ),
-                  contentList.add(
-                    Row(
-                      children: [
-                        Text('Plate number:'),
-                        Text(val['plateNum']),
-                      ],
-                    ),
-                  ),
-                  contentList.add(
-                    Row(
-                      children: [
-                        Text('Model:'),
-                        Text(val['model']),
-                      ],
-                    ),
-                  ),
-                  contentList.add(
-                    Row(
-                      children: [
-                        Text('CR number:'),
-                        Text(val['CRNum']),
-                      ],
-                    ),
-                  ),
-                  contentList.add(
-                    Row(
-                      children: [
-                        Text('Permit num:'),
-                        Text(val['permitNum']),
-                      ],
-                    ),
-                  ),
-                  contentList.add(
-                    Row(
-                      children: [
-                        Text('Is expired:'),
-                        Text(val['isExpired'] == 1 ? 'Expired' : 'Not Expired'),
-                      ],
-                    ),
-                  ),
-                  debugPrint('Length: ${contentList.length}'),
-                }
-            }
-        });*/
   }
 
   @override
