@@ -7,6 +7,7 @@ import 'printutil.dart';
 import 'databasehelper.dart';
 import 'scanner.dart';
 import 'package:camera/camera.dart';
+import 'debugdb.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -226,9 +227,7 @@ class _MyAppState extends State<MyApp> {
                     // Navigate to the second page when the button is pressed.
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              Scanner(cameras: widget.cameras)),
+                      MaterialPageRoute(builder: (context) => const DebugDB()),
                     );
                   },
                   child: const Text(

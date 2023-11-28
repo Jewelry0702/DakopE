@@ -49,7 +49,7 @@ class DatabaseHelper {
 
     ''');
 
-    await db.execute('''
+    /*await db.execute('''
       CREATE TABLE ticket (
         plateNum TEXT,
         ownerName TEXT,
@@ -60,7 +60,7 @@ class DatabaseHelper {
       );
       
 
-    ''');
+    ''');*/
   }
 
   // Insert a new record into the database
@@ -83,5 +83,10 @@ class DatabaseHelper {
         where: 'plateNum = ?',
         whereArgs: [plateNum],
         limit: 1);
+  }
+
+  Future<void> deleteAllEntries() async {
+    final db = await database;
+    await db.delete('info');
   }
 }
