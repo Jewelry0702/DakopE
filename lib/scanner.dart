@@ -37,10 +37,18 @@ class _Scanner extends State<Scanner> {
 
       String? plateNum;
       RegExp regex = RegExp(r'[A-Z]{3} \d{3,4}');
+      RegExp r2 = RegExp(r'\d{3,4} [A-Z]{3}');
+
       for (TextBlock block in recognizedText.blocks) {
         final String text = block.text;
         plateNum = regex.stringMatch(text);
 
+        if (plateNum != null) {
+          debugPrint("Found: $plateNum");
+          return plateNum;
+        }
+
+        plateNum = r2.stringMatch(text);
         if (plateNum != null) {
           debugPrint("Found: $plateNum");
           return plateNum;

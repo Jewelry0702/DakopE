@@ -307,7 +307,7 @@ class _TicketFormState extends State<TicketForm> {
     itemChecked.keys.where((item) => itemChecked[item]!).forEach((violation) {
       var insert = {
         'ownerName': _nameController.text,
-        'plateNum': _plateNoController,
+        'plateNum': _plateNoController.text,
         'model': _modelController.text,
         'CRNum': _crNoController.text,
         'permitNum': _dlPermitNoController.text,

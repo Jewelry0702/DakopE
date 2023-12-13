@@ -29,9 +29,27 @@ class DatabaseHelper {
     return await openDatabase(
       path,
       version:
-          1, // You can increase the version number when you need to upgrade the database schema.
+          5, // You can increase the version number when you need to upgrade the database schema.
       onCreate: _onCreate,
+      //onConfigure: _onConfig,
     );
+  }
+
+  Future<void> _onConfig(Database db) async {
+    await db.execute('''
+      CREATE TABLE ticket (
+        plateNum TEXT,
+        ownerName TEXT,
+        model TEXT,
+        CRNum TEXT,
+        permitNum TEXT,
+        date TEXT,
+        place TEXT,
+        violation TEXT
+      );
+      
+
+    ''');
   }
 
   // Define the database schema in the onCreate callback
@@ -49,6 +67,9 @@ class DatabaseHelper {
 
     ''');
 
+    debugPrint('Created Info');
+
+    debugPrint('Created ticket');
     await db.execute('''
       CREATE TABLE ticket (
         plateNum TEXT,
@@ -58,7 +79,7 @@ class DatabaseHelper {
         permitNum TEXT,
         date TEXT,
         place TEXT,
-        violation, TEXT
+        violation TEXT
       );
       
 
@@ -100,5 +121,6 @@ class DatabaseHelper {
   Future<void> deleteAllEntries() async {
     final db = await database;
     await db.delete('info');
+    await db.delete('ticket');
   }
 }

@@ -85,7 +85,7 @@ class _DebugViewDBState extends State<DebugViewDB> {
     var violation = await DatabaseHelper.instance.queryAllViolation();
 
     for (var val in violation) {
-      debugPrint('Value found ${val['ownerName']}');
+      debugPrint('Violation found ${val['ownerName']}');
       contentList.add(
         Row(
           children: [
@@ -173,7 +173,11 @@ class _DebugViewDBState extends State<DebugViewDB> {
           FutureBuilder(
               future: createView(),
               builder: (context, snapshot) {
-                return snapshot.requireData;
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return snapshot.requireData;
+                } else {
+                  return const Center(child: Text('No Data!'));
+                }
               }),
         ],
       ),
