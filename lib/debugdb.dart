@@ -73,7 +73,6 @@ class _DebugDBState extends State<DebugDB> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  debugPrint('Routing...');
                   Navigator.push(
                     context,
                     MaterialPageRoute(

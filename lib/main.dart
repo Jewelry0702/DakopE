@@ -33,7 +33,22 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
+    db.database.then((value) => {
+          value.execute('''
+      CREATE TABLE IF NOT EXISTS ticket (
+        plateNum TEXT,
+        ownerName TEXT,
+        model TEXT,
+        CRNum TEXT,
+        permitNum TEXT,
+        date TEXT,
+        place TEXT,
+        violation TEXT
+      );
+      
 
+    ''')
+        });
     /*final newRec = {
       'plateNum': 'NBC 1234',
       'ownerName': 'Sam MckimLy',

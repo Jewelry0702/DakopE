@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
@@ -39,10 +37,18 @@ class _Scanner extends State<Scanner> {
 
       String? plateNum;
       RegExp regex = RegExp(r'[A-Z]{3} \d{3,4}');
+      RegExp r2 = RegExp(r'\d{3,4} [A-Z]{3}');
+
       for (TextBlock block in recognizedText.blocks) {
         final String text = block.text;
         plateNum = regex.stringMatch(text);
 
+        if (plateNum != null) {
+          debugPrint("Found: $plateNum");
+          return plateNum;
+        }
+
+        plateNum = r2.stringMatch(text);
         if (plateNum != null) {
           debugPrint("Found: $plateNum");
           return plateNum;

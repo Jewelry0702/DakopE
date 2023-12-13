@@ -29,9 +29,27 @@ class DatabaseHelper {
     return await openDatabase(
       path,
       version:
-          1, // You can increase the version number when you need to upgrade the database schema.
+          5, // You can increase the version number when you need to upgrade the database schema.
       onCreate: _onCreate,
+      //onConfigure: _onConfig,
     );
+  }
+
+  Future<void> _onConfig(Database db) async {
+    await db.execute('''
+      CREATE TABLE ticket (
+        plateNum TEXT,
+        ownerName TEXT,
+        model TEXT,
+        CRNum TEXT,
+        permitNum TEXT,
+        date TEXT,
+        place TEXT,
+        violation TEXT
+      );
+      
+
+    ''');
   }
 
   // Define the database schema in the onCreate callback
@@ -49,18 +67,28 @@ class DatabaseHelper {
 
     ''');
 
-    /*await db.execute('''
+    debugPrint('Created Info');
+
+    debugPrint('Created ticket');
+    await db.execute('''
       CREATE TABLE ticket (
         plateNum TEXT,
         ownerName TEXT,
         model TEXT,
         CRNum TEXT,
         permitNum TEXT,
-        isExpired BOOLEAN
+        date TEXT,
+        place TEXT,
+        violation TEXT
       );
       
 
-    ''');*/
+    ''');
+  }
+
+  Future<int> insertViolation(Map<String, dynamic> row) async {
+    final db = await database;
+    return await db.insert('ticket', row);
   }
 
   // Insert a new record into the database
@@ -73,6 +101,11 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> queryAll() async {
     final db = await database;
     return await db.query('info');
+  }
+
+  Future<List<Map<String, dynamic>>> queryAllViolation() async {
+    final db = await database;
+    return await db.query('ticket');
   }
 
   Future<List<Map<String, dynamic>>> getDataFromPlateNum(
@@ -88,5 +121,6 @@ class DatabaseHelper {
   Future<void> deleteAllEntries() async {
     final db = await database;
     await db.delete('info');
+    await db.delete('ticket');
   }
 }
