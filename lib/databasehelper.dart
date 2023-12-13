@@ -49,18 +49,25 @@ class DatabaseHelper {
 
     ''');
 
-    /*await db.execute('''
+    await db.execute('''
       CREATE TABLE ticket (
         plateNum TEXT,
         ownerName TEXT,
         model TEXT,
         CRNum TEXT,
         permitNum TEXT,
-        isExpired BOOLEAN
+        date TEXT,
+        place TEXT,
+        violation, TEXT
       );
       
 
-    ''');*/
+    ''');
+  }
+
+  Future<int> insertViolation(Map<String, dynamic> row) async {
+    final db = await database;
+    return await db.insert('ticket', row);
   }
 
   // Insert a new record into the database
@@ -73,6 +80,11 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> queryAll() async {
     final db = await database;
     return await db.query('info');
+  }
+
+  Future<List<Map<String, dynamic>>> queryAllViolation() async {
+    final db = await database;
+    return await db.query('ticket');
   }
 
   Future<List<Map<String, dynamic>>> getDataFromPlateNum(

@@ -304,6 +304,20 @@ class _TicketFormState extends State<TicketForm> {
   }
 
   void _printFormData() {
+    itemChecked.keys.where((item) => itemChecked[item]!).forEach((violation) {
+      var insert = {
+        'ownerName': _nameController.text,
+        'plateNum': _plateNoController,
+        'model': _modelController.text,
+        'CRNum': _crNoController.text,
+        'permitNum': _dlPermitNoController.text,
+        'date': _dateController.text,
+        'place': _placeOfViolationController.text,
+        'violation': violation,
+      };
+      DatabaseHelper.instance.insertViolation(insert);
+    });
+
     instance.isConnected.then((isConnected) {
       if (isConnected == true) {
         instance.printCustom("Date: ${_dateController.text}",
