@@ -18,6 +18,11 @@ class _TicketFormState extends State<TicketForm> {
     "Illegal parking",
     "No license",
     "Other Violation",
+    "No Parking",
+    "No U-Turn",
+    "One-Way",
+    "No Left-Turn",
+    "Loading-Unloading"
   ];
 
   late Map<String, bool> itemChecked;
@@ -103,11 +108,13 @@ class _TicketFormState extends State<TicketForm> {
           .then((value) => {
                 if (value.isNotEmpty)
                   {
-                    _nameController.text = value.first['ownerName'],
-                    _modelController.text = value.first['model'],
-                    _crNoController.text = value.first['CRNum'],
-                    _dlPermitNoController.text = value.first['permitNum'],
-                    isExpire = value.first['isExpired']
+                    setState(() {
+                      _nameController.text = value.first['ownerName'];
+                      _modelController.text = value.first['model'];
+                      _crNoController.text = value.first['CRNum'];
+                      _dlPermitNoController.text = value.first['permitNum'];
+                      isExpire = value.first['isExpired'] == 1 ? true : false;
+                    }),
                   }
               });
     }
